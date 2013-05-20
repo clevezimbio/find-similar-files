@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
+import sys
 import collections
 import hashlib
+
+DEFAULT_THRESHOLD = 0.8
 
 test_file_list = ['test1.html', 'test2.html', 'test3.html']
 
@@ -53,7 +56,16 @@ class FileIndex(object):
 
 
 def main():
-    find_similar_files(test_file_list, .1)
+    print sys.argv[1]
+    try:
+        file_list_name = sys.argv[1]
+        f = open(file_list_name)
+        files = [fn.strip() for fn in f.readlines()]
+        files = filter(None, files)
+        f.close()
+    except IndexError:
+        files = test_file_list
+    find_similar_files(files, DEFAULT_THRESHOLD)
 
 if __name__ == '__main__':
     main()
